@@ -14,8 +14,9 @@
 
 ## Notes
 
-- difference between K8s, Puppet, Chef, Ansible
+- difference between K8s, Docker Swarm, Puppet, Chef, Ansible
 - Ingress
+- Look into setting up katacoda so you can have kubectl running correctly on both nodes. That way you can watch pods in one node and send commands in the other.
 
 ## What is Kubernetes?
 
@@ -96,15 +97,107 @@ There are command line tools that can help - e.g. minikube, kops, kubespray, kub
 
 But you can always just set up a hosted kubernetes cluster with GKE.
 
+We're going to start working with a Kubernetes cluster using Katacoda: https://www.katacoda.com/courses/kubernetes/playground
+
+Katacoda provides a very simple cluster with one master node and one worker node.
+
 ## kubectl
+
+`kubectl` is the command line tool that we use to communicate with a Kubernetes cluster.
+
+```
+$ kubectl get nodes
+NAME      STATUS    ROLES     AGE       VERSION
+master    Ready     master    9m        v1.10.0
+node01    Ready     <none>    8m        v1.10.0
+```
+
+```
+$ kubectl get pods
+No resources found.
+```
+
+```
+$ kubectl get componentstatus
+NAME                 STATUS    MESSAGE              ERROR
+scheduler            Healthy   ok
+controller-manager   Healthy   ok
+etcd-0               Healthy   {"health": "true"}
+```
+
+```
+$ kubectl get pods -n kube-system -o wide
+NAME                             READY     STATUS    RESTARTS   AGE       IP            NODE
+etcd-master                      1/1       Running   0          17m       172.17.0.68   master
+kube-apiserver-master            1/1       Running   0          17m       172.17.0.68   master
+kube-controller-manager-master   1/1       Running   0          17m       172.17.0.68   master
+kube-dns-86f4d74b45-pkgtz        3/3       Running   0          18m       10.32.0.2     node01
+kube-proxy-hjwkz                 1/1       Running   0          18m       172.17.0.68   master
+kube-proxy-np45k                 1/1       Running   0          18m       172.17.0.73   node01
+kube-scheduler-master            1/1       Running   0          17m       172.17.0.68   master
+weave-net-5rltx                  2/2       Running   1          18m       172.17.0.68   master
+weave-net-xpcr7                  2/2       Running   0          18m       172.17.0.73   node01
+```
 
 
 
 ## Deploying a Pod
 
-## Specs
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard
+spec: 
+  containers:
+    - image: gcr.io/kuar-demo/kuard-amd64:1
+      name: kuard
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+```
+
+```
+$ kubectl apply -f pod.yml
+```
+
+(Show other statuses on the way to running?)
+
+```
+$ kubectl get pods
+NAME                    READY     STATUS    RESTARTS   AGE
+kuar-7595678cdf-57ccf   1/1       Running   0          6s
+```
+
+```
+$ kubectl delete pods/kuard
+```
+
+```
+$ kubectl delete -f pod.yml
+```
+
+### Resource requests
+
+### Health checks
+
+### Labels and Annotations
+
+## Current and Desired State
+
+```
+kubectl run kuar --image=gcr.io/kuar-demo/kuard-amd64:1 -r 3
+kubectl get pods
+kubectl delete pod/kuar-7595678cdf-8dxr8
+kubectl get pods
+```
 
 ## Services
+
+
+
+## Cascading API objects
 
 ## ReplicaSets
 
