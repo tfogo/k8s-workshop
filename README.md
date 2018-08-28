@@ -55,7 +55,7 @@ This components watches for containers that haven't been assigned to run on a no
 These are the core control loops of Kubernetes. The Kubernetes controller manager will constantly watch the state of the cluster and will make changes to move the current state of the cluster to the desired state. It observes and acts on the cluster through the API server.
 
 #### cloud-controller-manager
-***
+
 These are cloud-specific control loops. Kubernetes has the built-in ability talk to several cloud providers. So if the cluster needs to spin up a load blanacer, Kubernetes will be able to do that whether it's on AWS, GCP, Azure, and more. The cloud controller manager can also manage third-party control loops.
 
 
