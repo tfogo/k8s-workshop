@@ -20,7 +20,7 @@
 
 ## What is Kubernetes?
 
-Kubernetes is an open-source sysyem for deploying, scaling, and managing applications using containers. The precursor to Kubernetes is Borg - Google's internal tool for cluster orchestration. In 2014 the open source version of Borg called Kubernetes was released. Since then, Kubernetes has gorwn immensely. It's a fast growing project with a very large ecosystem. The Kubernetes project is now stewarded by the Cloud Native Computing Foundation (which itself is a part of the Linux Foundation).
+Kubernetes is an open-source system for deploying, scaling, and managing applications using containers. The precursor to Kubernetes is Borg - Google's internal tool for cluster orchestration. In 2014 the open source version of Borg called Kubernetes was released. Since then, Kubernetes has gorwn immensely. It's a fast growing project with a very large ecosystem. The Kubernetes project is now stewarded by the Cloud Native Computing Foundation (which itself is a part of the Linux Foundation).
 
 Kubernetes is the Greek for Helmsman or Pilot. That's why the logo is a ship's wheel (and you'll notice sialing terms and metaphors used a lot in Kubernetes products because of this). It is the root of the words Governer and Cybernetics. Often times we just call it K8s for short. In fact our smoothie mascot is called Kate in honour of Kubernetes!
 
@@ -103,7 +103,7 @@ Katacoda provides a very simple cluster with one master node and one worker node
 
 ## kubectl
 
-`kubectl` is the command line tool that we use to communicate with a Kubernetes cluster.
+`kubectl` is the command line tool that we use to communicate with a Kubernetes cluster. It talks to the apiserver to get information about the cluster and to send instructions.
 
 ```
 $ kubectl get nodes
@@ -147,13 +147,13 @@ weave-net-xpcr7                  2/2       Running   0          18m       172.17
 apiVersion: v1
 kind: Pod
 metadata:
-  name: kuard
-spec: 
+  name: devops
+spec:
   containers:
-    - image: gcr.io/kuar-demo/kuard-amd64:1
-      name: kuard
+    - image: tfogo/devops
+      name: devops
       ports:
-        - containerPort: 8080
+        - containerPort: 80
           name: http
           protocol: TCP
 ```
@@ -171,7 +171,7 @@ kuar-7595678cdf-57ccf   1/1       Running   0          6s
 ```
 
 ```
-$ kubectl delete pods/kuard
+$ kubectl delete pods devops
 ```
 
 ```
@@ -180,7 +180,39 @@ $ kubectl delete -f pod.yml
 
 ### Resource requests
 
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: devops
+spec:
+  containers:
+    - image: tfogo/devops
+      name: devops
+      ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+```
+
 ### Health checks
+
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: devops
+spec:
+  containers:
+    - image: tfogo/devops
+      name: devops
+      ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+```
 
 ### Labels and Annotations
 
@@ -196,6 +228,20 @@ kubectl get pods
 ## Services
 
 
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: devops
+spec:
+  containers:
+    - image: tfogo/devops
+      name: devops
+      ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+```
 
 ## Cascading API objects
 
