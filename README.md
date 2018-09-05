@@ -218,6 +218,8 @@ spec:
 
 ## Current and Desired State
 
+Reconciliation loop
+
 ```
 kubectl run kuar --image=gcr.io/kuar-demo/kuard-amd64:1 -r 3
 kubectl get pods
